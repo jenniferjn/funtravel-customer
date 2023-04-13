@@ -1,14 +1,15 @@
 package id.co.bca.funtravel.customer.service;
 
-import id.co.bca.funtravel.customer.model.Customer;
+import id.co.bca.funtravel.customer.dto.CustomerDTO;
+import id.co.bca.funtravel.customer.model.CustomerModel;
 
 public interface CustomerService {
 
-    void insert(Customer customer);
+    CustomerModel insert(CustomerDTO customer);
 
-    void update(Customer customer);
+    CustomerModel update(CustomerDTO customer, Integer customerId);
 
-    void delete(Integer customerId);
+    String delete(Integer customerId);
 
-    Customer getCustomerById(Integer customerId);
+    CustomerModel getCustomerById(Integer customerId);
 }

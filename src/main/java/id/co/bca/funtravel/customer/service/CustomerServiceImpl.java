@@ -1,9 +1,14 @@
 package id.co.bca.funtravel.customer.service;
 
-import id.co.bca.funtravel.customer.model.Customer;
+import id.co.bca.funtravel.customer.dto.CustomerDTO;
+import id.co.bca.funtravel.customer.model.CustomerModel;
 import id.co.bca.funtravel.customer.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.sql.Date;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -12,22 +17,39 @@ public class CustomerServiceImpl implements CustomerService {
     CustomerRepository repository;
 
     @Override
-    public void insert(Customer customer) {
-        repository.save(customer);
+    public CustomerModel insert(CustomerDTO dto) {
+        CustomerModel model = new CustomerModel();
+        model.setName(dto.getName());
+        model.setEmail(dto.getEmail());
+        model.setDob(new Date(dto.getDob()));
+        model.setPhoneNumber(dto.getPhoneNumber());
+        model.setIdNumber(dto.getIdNumber());
+        return repository.save(model);
     }
 
     @Override
-    public void update(Customer customer) {
-        repository.save(customer);
+    public CustomerModel update(CustomerDTO dto, Integer customerId) {
+        CustomerModel model = repository.findCustomerById(customerId);
+        model.setId(customerId);
+        model.setName(dto.getName());
+        model.setEmail(dto.getEmail());
+        model.setPhoneNumber(dto.getPhoneNumber());
+        model.setIdNumber(dto.getIdNumber());
+        return repository.save(model);
     }
 
     @Override
-    public void delete(Integer customerId) {
-        repository.deleteById(customerId);
+    public String delete(Integer customerId) {
+        try {
+            repository.deleteById(customerId);
+            return "Successfully deleted customer data!";
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to delete customer data!");
+        }
     }
 
     @Override
-    public Customer getCustomerById(Integer customerId) {
+    public CustomerModel getCustomerById(Integer customerId) {
         return repository.findCustomerById(customerId);
     }
 }
