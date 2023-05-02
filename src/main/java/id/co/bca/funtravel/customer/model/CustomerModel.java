@@ -17,11 +17,17 @@ public class CustomerModel {
     @Column(name = "customer_id")
     private Integer id;
 
-    @Column(name = "name")
-    private String name;
-
     @Column(name = "email")
     private String email;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "role")
+    private String role;
+
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "dob")
     private Date dob;
@@ -31,4 +37,7 @@ public class CustomerModel {
 
     @Column(name = "id_number")
     private String idNumber;
+
+    @Column(name = "balance")
+    private Integer balance;
 }
